@@ -1,32 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { AnimatePresence, motion } from "framer-motion"
+import { useState } from "react"
+import "./App.css"
+import Modal from "./components/Modal"
 
 function App() {
-  
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const close = () => setModalOpen(false)
+  const open = () => setModalOpen(true)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="save-button"
+        onClick={() => (modalOpen ? close() : open())}
+      >
+        Launch modal{" "}
+      </motion.button>
+
+      <AnimatePresence
+        initial={false}
+        exitBeforeEnter={true}
+        onExitComplete={() => null}
+      >
+        {modalOpen && (
+          <Modal handleClose={close} text="Hi, mom!" variant="newspaper" />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
